@@ -40,6 +40,18 @@ server.post("/api/users", (req, res) => {
     });
 });
 
+server.get("/api/users", (req, res) => {
+  db.find()
+    .then(users => {
+      res.json(users);
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "There was an error while saving the user to the database"
+      });
+    });
+});
+
 //should always be last
 server.listen(1337, () => {
   console.log("Server is running on port 1337...");
