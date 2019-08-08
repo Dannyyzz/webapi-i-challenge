@@ -52,6 +52,26 @@ server.get("/api/users", (req, res) => {
     });
 });
 
+server.get("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.findById(id)
+    .then(users => {
+      if (users) {
+        res.json(users);
+      } else {
+        res.status(404).json({
+          message: "The user with the specified ID does not exist."
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        error: "The user information could not be retrieved."
+      });
+    });
+});
+
 //should always be last
 server.listen(1337, () => {
   console.log("Server is running on port 1337...");
