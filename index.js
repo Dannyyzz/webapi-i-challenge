@@ -72,6 +72,27 @@ server.get("/api/users/:id", (req, res) => {
     });
 });
 
+server.delete("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.remove(id)
+    .then(deleteInfo => {
+      if (deleteInfo) {
+        res.json(deleteInfo);
+      } else {
+        res.status(404).json({
+          message: "Invalid user ID"
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        err: err,
+        message: "Failed to destory user."
+      });
+    });
+});
+
 //should always be last
 server.listen(1337, () => {
   console.log("Server is running on port 1337...");
